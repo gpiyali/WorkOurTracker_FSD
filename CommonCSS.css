@@ -1,21 +1,8 @@
 /* unvisited link */
-a:link {
-    color:lightblue
-}
-
-/* visited link */
-a:visited {
-    color: rgb(235, 132, 166);
-}
 
 /* mouse over link */
-a:hover {
+.btn-link {
     color:blue;
-}
-
-/* selected link */
-a:active {
-    color: blue;
 }
 
 .textbox{
@@ -28,10 +15,15 @@ a:active {
 .pinkBorder{
     border: 2px solid purple;
     height: 90px;
-    width:817.78px;
+    width:80%;
     margin-left: 15px
 }
 
 .outlineBorder{
     border: 2px solid #555555; 
+}
+
+.container{
+    background-color:#e7e7e7;
+    width:100%;
 }

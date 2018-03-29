@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="CommonCSS.css">
     <!-- Polyfill(s) for older browsers -->
@@ -22,36 +23,40 @@
     </script>
   </head>
 
-  <body>
-    <div class="container-fluid" id="dvStart" >
-      <div class="row">
-        <div class="col-md-12" style="background-color:#e7e7e7;">
-          <h1>Workout Tracker</h1>
-        </div>
-      </div>
-      <div class="col-md-12" style="height:10px"></div>
-      <div class="row">
-      <div class="col-md-12" style="background-color:#e7e7e7;">
-        <div class="row" style="padding-top:10px">
-          <div class="col-md-1"></div>
-        <div class="col-sm-3">
-          <b><a href="https://www.google.com">View All</a></b>
-        </div>
-        <div class="col-sm-3">
-            <b><a href="https://www.google.com">Create</a></b>
+  <body ng-app="myApp" ng-controller="myCtrl">
+    <div class="container" id="dvCommon">
+        <div class="row">
+            <div class="col-md-12" >
+              <h1>Workout Tracker</h1>
+            </div>
           </div>
-          <div class="col-sm-3">
-              <b><a href="https://www.google.com">Category</a></b>
-            </div>
-            <div class="col-sm-2">
-                <b><a href="Workout.html">Track</a></b>
-              </div>
-            </div>
+          <div class="col-md-12" style="height:10px"></div>
+          <div class="row">
+              <div class="col-md-12" >
+                <div class="row" style="padding-top:10px">
+                  <div class="col-md-1"></div>
+                <div class="col-sm-3">
+                  <button type="button" class="btn btn-link" ng-click="showStartFunc()"><b>View All</b></button>
+                </div>
+                <div class="col-sm-3">
+                    <button type="button" class="btn btn-link" ng-click="showWorkoutFunc()"><b>Create</b></button>
+                  </div>
+                  <div class="col-sm-3">
+                      <button type="button" class="btn btn-link" ng-click="showCategoryFunc()"><b>Category</b></button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-link" ng-click=""><b>Track</b></button>
+                      </div>
+                    </div>
+                  </div>   
+    </div>
+  </div>
+    <div class="container" id="dvStart" ng-show="showStart" >
             <div class="col-md-12" style="height:5px"></div>
             <div class="row">
               <div class="col-md-1"></div>
               <div class="col-md-11">
-                <input class="textbox" type="text" id="txtSearch" placeholder="Search">
+                <input class="textbox" type="text" id="txtSearch" ng-model="startSearchBox" placeholder="Search">
               </div>
             </div>
             <div class="col-md-12" style="height:5px"></div>
@@ -67,54 +72,316 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-2">
-                        <button class="btn btn-default" id="btnEdit">Edit</button>
+                        <button class="btn btn-default" id="btnEdit" ng-click="editWorkoutFunc()">Edit</button>
                       </div>
                       <div class="col-md-3">
                           <button class="btn btn-default" id="btnDelete" >Delete</button>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-default" id="btnStart">Start</button>
+                            <button class="btn btn-default" id="btnStart" ng-click="startWorkoutFunc()">Start</button>
                           </div>
                           <div class="col-md-3">
-                              <button class="btn btn-default" id="btnEnd" disabled>End</button>
+                              <button class="btn btn-default" id="btnEnd" ng-click="endWorkoutFunc()" >End</button>
                             </div>
                     </div>
               </div>
               <div class="col-md-1"></div>
             </div>
       </div>
-    </div>
-    </div>
-    <div class="container-fluid" id="dvAddWorkout" hidden>
+
+
+    <div class="container" id="dvAddWorkout" ng-show="showWorkout">
+        <div class="row">
+            <div class="col-md-12">
+              <h3>Add Workout</h3>
+            </div>
+          </div>
         <form name="wform" ng-submit="submitForm()" novalidate>
-            <!-- NAME -->
-            <div class="form-group" ng-class="{ 'has-error' : wform.title.$invalid && !wform.title.$pristine }">
-                <label>Title (Should not Empty)</label>
-                <input type="text" name="title" class="form-control" ng-model="workout.title" ng-minlength="3" required>
-                <p ng-show="wform.title.$invalid && !wform.title.$pristine" class="help-block">workout title is required.</p>
-                <p ng-show="wform.title.$error.minlength" class="help-block">Should contain 3 character</p>
+            <!-- Title -->
+            <div class="form-group" ng-class="{ 'has-error' : wform.addWorkoutTitle.$invalid && !wform.addWorkoutTitle.$pristine }">
+                <label>Title </label>
+                <input type="text" name="addWorkoutTitle" class="form-control" ng-model="workout.addWorkoutTitle" ng-minlength="3" required>
+                <p ng-show="wform.addWorkoutTitle.$invalid && !wform.addWorkoutTitle.$pristine" class="help-block">workout title is required.</p>
+                <p ng-show="wform.addWorkoutTitle.$error.minlength" class="help-block">Should contain 3 character</p>
             </div>
             
-            <!-- USERNAME -->
-            <div class="form-group" ng-class="{ 'has-error' : wform.note.$invalid && !wform.note.$pristine }">
+            <!-- Note -->
+            <div class="form-group" ng-class="{ 'has-error' : wform.addWorkoutNote.$invalid && !wform.addWorkoutNote.$pristine }">
                 <label>Note</label>
-                <textarea class="form-control" rows="5" name="note" ng-model="workout.note"></textarea>
+                <textarea class="form-control" rows="5" name="addWorkoutNote" ng-model="workout.addWorkoutNote"></textarea>
+        
+            </div>
+            
+            <!-- Calories Burnt -->
+            <div class="form-group" ng-class="{ 'has-error' : wform.addWorkoutCbpm.$invalid && !wform.addWorkoutCbpm.$pristine }">
+                <label>Calories Burnt Per Minute (Should be Number Only)</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="number" name="addWorkoutCbpm" class="form-control"  value={{count}} ng-model="workout.addWorkoutCbpm" ng-min="1" required>
+                    </div>
+                    <div class="col-md-1">
+                        <img src="Images/Button_Increment.png" style="height:25px;width:25px;float:right;" ng-click="incrementFunc()">
+                    </div>
+                    <div class="col-md-1">
+                        <img src="Images/Button_Decrement.png" style="height:25px;width:25px;float:left" ng-click="decrementFunc()">
+                    </div>
+                  </div>
+                <p ng-show="wform.addWorkoutCbpm.$error.min" class="help-block">Should be a positive value above zero.</p>
+            </div>
+
+            <!-- Catgory -->
+            <div class="form-group" ng-class="{ 'has-error' : wform.addWorkoutCategory.$invalid && !wform.addWorkoutCategory.$pristine }">
+                <label>Category</label>
+                <div class="row">
+                    <div class="col-md-6">
+                <select ng-model="selectedCategory" name="addWorkoutCategory" class="form-control"  ng-model="workout.addWorkoutCategory"  ng-options="item for item in categories" required>
+                    <option value="" disabled selected>Select Category</option>  
+                </select>
+              </div>
+                <p ng-show="wform.addWorkoutCategory.$invalid && !wform.addWorkoutCategory.$pristine" class="help-block">Category title is required.</p>
+              </div>
+                  </div>
+            <button  class="btn btn-primary" ng-disabled="wform.$invalid" ng-click="onSubmit()">Add Workout</button><br><br>
+        </form>
+    </div>
+
+    <div class="container" id="dvEditWorkout" ng-show="showEditWorkout">
+        <div class="row">
+            <div class="col-md-12">
+              <h3>Edit workout</h3>
+            </div>
+          </div>
+        <form name="eform" ng-submit="submitForm()" novalidate>
+            <!-- Title -->
+            <div class="form-group" ng-class="{ 'has-error' : eform.editWorkoutTitle.$invalid && !eform.editWorkoutTitle.$pristine }">
+                <label>Title </label>
+                <input type="text" name="editWorkoutTitle" class="form-control" ng-model="editworkout.editWorkoutTitle" ng-minlength="3" required>
+                <p ng-show="eform.editWorkoutTitle.$invalid && !eform.editWorkoutTitle.$pristine" class="help-block">workout title is required.</p>
+                <p ng-show="eform.editWorkoutTitle.$error.minlength" class="help-block">Should contain 3 character</p>
+            </div>
+            
+            <!-- Note -->
+            <div class="form-group" ng-class="{ 'has-error' : eform.editWorkoutNote.$invalid && !eform.editWorkoutNote.$pristine }">
+                <label>Note</label>
+                <textarea class="form-control" rows="5" name="editWorkoutNote" ng-model="editworkout.editWorkoutNote"></textarea>
+        
+            </div>
+
+            <!-- Catgory -->
+            <div class="form-group" ng-class="{ 'has-error' : eform.selectCategory.$invalid && !eform.selectCategory.$pristine }">
+                <label>Category</label>
+                <div class="row">
+                    <div class="col-md-6">
+                <select ng-model="selectedCategory" class="form-control" name="selectCategory"  ng-model="editworkout.selectCategory"  ng-options="item for item in categories" required>
+                    <option value="" disabled selected>Select Category</option>  
+                </select>
+              </div>
+                <p ng-show="eform.selectCategory.$invalid && !eform.selectCategory.$pristine" class="help-block">Category title is required.</p>
+              </div>
+                  </div>
+            <button  class="btn btn-primary" ng-disabled="eform.$invalid" ng-click="onSubmit()">Update</button> <button  class="btn btn-primary"  ng-click="cancelEditWorkout()">Cancel</button><br><br>
+        </form>
+    </div>
+    <div class="container" id="dvStartWorkout" ng-show="showStartWorkout">
+        <div class="row">
+            <div class="col-md-12">
+              <h3>Start Workout</h3>
+            </div>
+          </div>
+        <form name="sform" ng-submit="submitForm()" novalidate>
+            <!-- Title -->
+            <div class="form-group" ng-class="{ 'has-error' : sform.startWorkoutTitle.$invalid && !sform.startWorkoutTitle.$pristine }">
+                <label>Title </label>
+                <input type="text" name="startWorkoutTitle" class="form-control" ng-model="startworkout.startWorkoutTitle" ng-minlength="3" required>
+                <p ng-show="sform.startWorkoutTitle.$invalid && !sform.startWorkoutTitle.$pristine" class="help-block">workout title is required.</p>
+                <p ng-show="sform.startWorkoutTitle.$error.minlength" class="help-block">Should contain 3 character</p>
+            </div>
+            
+            <!-- Note -->
+            <div class="form-group" ng-class="{ 'has-error' : sform.startWorkoutNote.$invalid && !sform.startWorkoutNote.$pristine }">
+                <label>Note</label>
+                <textarea class="form-control" rows="5" name="startWorkoutNote" ng-model="startworkout.startWorkoutNote"></textarea>
                 <!-- <input type="text" name="note" class="form-control" ng-model="workout.note"> -->
         
             </div>
-            
-            <!-- Age -->
-            <div class="form-group" ng-class="{ 'has-error' : wform.cbpm.$invalid && !wform.cbpm.$pristine }">
-                <label>Calories Burnt Per Minute (Should be Number Only)</label>
-                <input type="number" name="cbpm" class="form-control" ng-model="workout.cbpm" ng-min="1" required>
-                <p ng-show="wform.cbpm.$error.min" class="help-block">Should be a positive value above zero.</p>
+
+            <!-- Start Date -->
+            <div class="form-group" ng-class="{ 'has-error' : sform.startDate.$invalid && !sform.startDate.$pristine }">
+                <label>Start Date</label>
+                <input type="date" class="form-control" rows="5" name="startDate" ng-model="startDate">
             </div>
-            
-        
-            
-            <button  class="btn btn-primary" ng-disabled="wform.$invalid" ng-click="onSubmit()">Add Workout</button><br><br>
-            <label>( Submit Button disabled if form information is not Valid/Empty )</label>
+
+             <!-- End Date -->
+             <div class="form-group" ng-class="{ 'has-error' : sform.startTime.$invalid && !sform.startTime.$pristine }">
+                <label>Start Time</label>
+                <input type="time"  class="form-control" rows="5" name="startTime" ng-model="startTime">
+            </div>
+
+            <button  class="btn btn-primary" ng-disabled="sform.$invalid" ng-click="onSubmit()">Start</button> <button  class="btn btn-primary"  ng-click="cancelEditWorkout()">Cancel</button><br><br>
         </form>
     </div>
+    <div class="container" id="dvEndWorkout" ng-show="showEndWorkout">
+      <div class="row">
+          <div class="col-md-12">
+            <h3>End Workout</h3>
+          </div>
+        </div>
+      <form name="eform" ng-submit="submitForm()" ng-model="endworkout.eform" novalidate>
+          <!-- Title -->
+          <div class="form-group" ng-class="{ 'has-error' : eform.endWorkoutTitle.$invalid && !eform.endWorkoutTitle.$pristine }">
+              <label>Title </label>
+              <input type="text" name="endWorkoutTitle" class="form-control" ng-model="endworkout.endWorkoutTitle" ng-minlength="3" required>
+              <p ng-show="eform.endWorkoutTitle.$invalid && !eform.endWorkoutTitle.$pristine" class="help-block">workout title is required.</p>
+              <p ng-show="eform.endWorkoutTitle.$error.minlength" class="help-block">Should contain 3 character</p>
+          </div>
+          
+          <!-- Note -->
+          <div class="form-group" ng-class="{ 'has-error' : eform.endWorkoutNote.$invalid && !eform.endWorkoutNote.$pristine }">
+              <label>Note</label>
+              <textarea class="form-control" rows="5" name="endWorkoutNote" ng-model="endworkout.endWorkoutNote"></textarea>
+          </div>
+
+          <!-- End Date -->
+          <div class="form-group" ng-class="{ 'has-error' : eform.endDate.$invalid && !eform.endDate.$pristine }">
+              <label>End Date</label>
+              <input type="date" class="form-control" rows="5" name = "endDate" ng-model="endDate">
+          </div>
+
+           <!-- End Date -->
+           <div class="form-group" ng-class="{ 'has-error' : eform.endTime.$invalid && !eform.endTime.$pristine }" ng-model="dvEndWorkOut">
+              <label>End Time</label>
+              <input type="time"  class="form-control" rows="5" name="endTime" ng-model="endTime">
+          </div>
+
+          <button  class="btn btn-primary" ng-disabled="eform.$invalid" ng-click="onSubmit()">End</button> <button  class="btn btn-primary"  ng-click="cancelEditWorkout()">Cancel</button><br><br>
+      </form>
+  </div>
+  <div class="container" id="dvCategory" ng-show="showCategory">
+      <div class="row">
+          <div class="col-md-12">
+            <h3>Add Category</h3>
+          </div>
+        </div>
+      <form name="cform" ng-submit="submitForm()" ng-model="endworkout.cform" novalidate>
+          <!-- Title -->
+          <div class="form-group">
+              <input class="textbox" type="text" id="txtCategorySearch" ng-model="categorySearchBox" placeholder="Search">
+          </div>
+          
+          <!-- Note -->
+          <div class="form-group" ng-class="{ 'has-error' : cform.endWorkoutNote.$invalid && !cform.endWorkoutNote.$pristine }">
+            <div class="row">
+              <div class="col-md-6">
+                  <input class="textbox" type="text" id="txtAdd" ng-model="addTextBox" placeholder="Add">
+              </div>
+              <div class="col-md-1">
+                  <img src="Images/Button_Increment.png" style="height:40px;width:40px;" ng-click="Add()">
+              </div>
+            </div>   
+          </div>
+          <div class="form-group">
+              <table class="table table-responsive">
+                <tr>
+                  <td>
+                    Jogging
+                  </td>
+                  <td>
+                      <button  class="btn btn-primary" ng-disabled="cform.$invalid" ng-click="editWorkoutFunc()">Edit</button> <button  class="btn btn-primary" ng-disabled="cform.$invalid" ng-click="">Delete</button> 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                      Swimming
+                    </td>
+                    <td>
+                        <button  class="btn btn-primary" ng-disabled="cform.$invalid" ng-click="editWorkoutFunc()">Edit</button>  <button  class="btn btn-primary" ng-disabled="cform.$invalid" ng-click="">Delete</button> 
+                      </td>
+                  </tr>
+              </table>
+          </div>
+        
+      </form>
+  </div>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+            $scope.showStart=true;
+            $scope.showWorkout = false;
+            $scope.showEditWorkout = false;
+            $scope.showEndWorkout = false;
+            $scope.showCategory=false;
+            $scope.showWorkoutFunc = function() {
+              $scope.showStart = false;
+                $scope.showWorkout = true; 
+                $scope.showEditWorkout =  false;
+                $scope.showStartWorkout = false;  
+                $scope.showEndWorkout = false;
+                $scope.showCategory=false;
+            }
+            $scope.showStartFunc=function(){
+              $scope.showStart=true;
+              $scope.showWorkout = false; 
+              $scope.showEditWorkout=false;
+              $scope.showStartWorkout = false; 
+              $scope.showEndWorkout = false; 
+              $scope.showCategory=false;
+            }
+            $scope.incrementFunc=function(){
+              var x=$scope.workout.addWorkoutCbpm;
+              $scope.workout.addWorkoutCbpm=x+1;  
+            }
+            $scope.decrementFunc=function(){
+              var x=$scope.workout.addWorkoutCbpm;
+              $scope.workout.addWorkoutCbpm=x-1;  
+            }
+            $scope.categories = ["Jogging", "Jumping", "Swimming","Running"];
+            $scope.editWorkoutFunc=function(){
+              $scope.showStart=false;
+              $scope.showWorkout = false; 
+              $scope.showEditWorkout = true; 
+              $scope.showStartWorkout = false;
+              $scope.showEndWorkout = false;
+              $scope.showCategory=false;  
+            }
+            $scope.cancelEditWorkout=function(){
+              $scope.showStart=true;
+              $scope.showWorkout = false; 
+              $scope.showEditWorkout = false; 
+              $scope.showStartWorkout = false; 
+              $scope.showEndWorkout = false; 
+              $scope.showCategory=false;
+            }
+            $scope.startWorkoutFunc=function(){
+              $scope.showStart=false;
+              $scope.showWorkout = false; 
+              $scope.showEditWorkout = false; 
+              $scope.showEndWorkout = false;
+              $scope.showStartWorkout = true;
+              $scope.showCategory=false;
+              $scope.startDate=new Date();
+              $scope.startTime=new Date();
+            }
+            $scope.endWorkoutFunc=function(){
+              $scope.showStart=false;
+              $scope.showWorkout = false; 
+              $scope.showEditWorkout = false; 
+              $scope.showStartWorkout = false;
+              $scope.showEndWorkout = true;
+              $scope.showCategory=false;
+              $scope.endDate=new Date();
+              $scope.endTime=new Date();
+            }
+            var clearControls=function(){
+            }
+            $scope.showCategoryFunc=function(){
+              $scope.showStart=false;
+              $scope.showWorkout = false; 
+              $scope.showEditWorkout = false; 
+              $scope.showStartWorkout = false;
+              $scope.showEndWorkout = false;
+              $scope.showCategory=true;
+            }
+        });
+        </script>
   </body>
 </html>
