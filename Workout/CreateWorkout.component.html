@@ -1,0 +1,54 @@
+    <div class="container" id="dvAddWorkout">
+        <div class="row">
+            <div class="col-md-12">
+              <h3>Add Workout</h3>
+            </div>
+          </div>
+        <form name="wform" ng-submit="submitForm()" novalidate>
+            <!-- Title -->
+            <div class="form-group" ng-class="{ 'has-error' : wform.addWorkoutTitle.$invalid && !wform.addWorkoutTitle.$pristine }">
+                <label>Title </label>
+                <input type="text" name="addWorkoutTitle" class="form-control" ng-model="addWorkoutTitle" ng-minlength="3" required>
+                <p ng-show="wform.addWorkoutTitle.$invalid && !wform.addWorkoutTitle.$pristine" class="help-block">workout title is required.</p>
+                <p ng-show="wform.addWorkoutTitle.$error.minlength" class="help-block">Should contain 3 character</p>
+            </div>
+            
+            <!-- Note -->
+            <div class="form-group" ng-class="{ 'has-error' : wform.addWorkoutNote.$invalid && !wform.addWorkoutNote.$pristine }">
+                <label>Note</label>
+                <textarea class="form-control" rows="5" name="addWorkoutNote" ng-model="addWorkoutNote"></textarea>
+        
+            </div>
+            
+            <!-- Calories Burnt -->
+            <div class="form-group" ng-class="{ 'has-error' : wform.addWorkoutCbpm.$invalid && !wform.addWorkoutCbpm.$pristine }">
+                <label>Calories Burnt Per Minute (Should be Number Only)</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="number" name="addWorkoutCbpm" class="form-control" [(ngModel)]="addWorkoutCbpm" ng-min="1" required>
+                    </div>
+                    <div class="col-md-1">
+                        <img src="Images/Button_Increment.png" style="height:25px;width:25px;float:right;" (click)="incrementFunc()">
+                    </div>
+                    <div class="col-md-1">
+                        <img src="Images/Button_Decrement.png" style="height:25px;width:25px;float:left" (click)="decrementFunc()">
+                    </div>
+                  </div>
+                <p ng-show="wform.addWorkoutCbpm.$error.min" class="help-block">Should be a positive value above zero.</p>
+            </div>
+
+            <!-- Catgory -->
+            <div class="form-group" ng-class="{ 'has-error' : wform.addWorkoutCategory.$invalid && !wform.addWorkoutCategory.$pristine }">
+                <label>Category</label>
+                <div class="row">
+                    <div class="col-md-6">
+                <select ng-model="selectedCategory" name="addWorkoutCategory" class="form-control"  ng-model="addWorkoutCategory"  ng-options="item for item in categories" required>
+                    <option value="" disabled selected>Select Category</option>  
+                </select>
+              </div>
+                <p ng-show="wform.addWorkoutCategory.$invalid && !wform.addWorkoutCategory.$pristine" class="help-block">Category title is required.</p>
+              </div>
+                  </div>
+            <button  class="btn btn-primary" ng-disabled="wform.$invalid" click="CreateWorkoutFunc()">Add Workout</button><br><br>
+        </form>
+    </div>

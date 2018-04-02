@@ -1,0 +1,39 @@
+
+    <div class="container" id="dvStartWorkout" >
+        <div class="row">
+            <div class="col-md-12">
+              <h3>Start Workout</h3>
+            </div>
+          </div>
+        <form name="sform" ng-submit="submitForm()" novalidate>
+            <!-- Title -->
+            <div class="form-group" ng-class="{ 'has-error' : sform.startWorkoutTitle.$invalid && !sform.startWorkoutTitle.$pristine }">
+                <label>Title </label>
+                <input type="text" name="startWorkoutTitle" class="form-control" ng-model="startWorkoutTitle" ng-minlength="3" required>
+                <p ng-show="sform.startWorkoutTitle.$invalid && !sform.startWorkoutTitle.$pristine" class="help-block">workout title is required.</p>
+                <p ng-show="sform.startWorkoutTitle.$error.minlength" class="help-block">Should contain 3 character</p>
+            </div>
+            
+            <!-- Note -->
+            <div class="form-group" ng-class="{ 'has-error' : sform.startWorkoutNote.$invalid && !sform.startWorkoutNote.$pristine }">
+                <label>Note</label>
+                <textarea class="form-control" rows="5" name="startWorkoutNote" ng-model="startWorkoutNote"></textarea>
+                <!-- <input type="text" name="note" class="form-control" ng-model="workout.note"> -->
+        
+            </div>
+
+            <!-- Start Date -->
+            <div class="form-group" ng-class="{ 'has-error' : sform.startDate.$invalid && !sform.startDate.$pristine }">
+                <label>Start Date</label>
+                <input type="date" class="form-control" rows="5" name="startDate" ng-model="startDate">
+            </div>
+
+             <!-- End Date -->
+             <div class="form-group" ng-class="{ 'has-error' : sform.startTime.$invalid && !sform.startTime.$pristine }">
+                <label>Start Time</label>
+                <input type="time"  class="form-control" rows="5" name="startTime" ng-model="startTime">
+            </div>
+
+            <button  class="btn btn-primary" ng-disabled="sform.$invalid" ng-click="onSubmit()">Start</button> <button  class="btn btn-primary"  ng-click="cancelEditWorkout()">Cancel</button><br><br>
+        </form>
+    </div>

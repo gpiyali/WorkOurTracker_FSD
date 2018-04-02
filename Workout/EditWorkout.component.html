@@ -1,0 +1,37 @@
+<div class="container" id="dvEditWorkout" >
+        <div class="row">
+            <div class="col-md-12">
+              <h3>Edit workout</h3>
+            </div>
+          </div>
+        <form name="eform" ng-submit="submitForm()" novalidate>
+            <!-- Title -->
+            <div class="form-group" ng-class="{ 'has-error' : eform.editWorkoutTitle.$invalid && !eform.editWorkoutTitle.$pristine }">
+                <label>Title </label>
+                <input type="text" name="editWorkoutTitle" class="form-control" ng-model="editWorkoutTitle" ng-minlength="3" required>
+                <p ng-show="eform.editWorkoutTitle.$invalid && !eform.editWorkoutTitle.$pristine" class="help-block">workout title is required.</p>
+                <p ng-show="eform.editWorkoutTitle.$error.minlength" class="help-block">Should contain 3 character</p>
+            </div>
+            
+            <!-- Note -->
+            <div class="form-group" ng-class="{ 'has-error' : eform.editWorkoutNote.$invalid && !eform.editWorkoutNote.$pristine }">
+                <label>Note</label>
+                <textarea class="form-control" rows="5" name="editWorkoutNote" ng-model="editWorkoutNote"></textarea>
+        
+            </div>
+
+            <!-- Catgory -->
+            <div class="form-group" ng-class="{ 'has-error' : eform.selectCategory.$invalid && !eform.selectCategory.$pristine }">
+                <label>Category</label>
+                <div class="row">
+                    <div class="col-md-6">
+                <select ng-model="selectedCategory" class="form-control" name="selectCategory"  ng-model="selectCategory"  ng-options="item for item in categories" required>
+                    <option value="" disabled selected>Select Category</option>  
+                </select>
+              </div>
+                <p ng-show="eform.selectCategory.$invalid && !eform.selectCategory.$pristine" class="help-block">Category title is required.</p>
+              </div>
+                  </div>
+            <button  class="btn btn-primary" ng-disabled="eform.$invalid" ng-click="onSubmit()">Update</button> <button  class="btn btn-primary"  ng-click="cancelEditWorkout()">Cancel</button><br><br>
+        </form>
+    </div>

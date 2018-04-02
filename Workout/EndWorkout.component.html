@@ -1,0 +1,36 @@
+<div class="container" id="dvEndWorkout">
+      <div class="row">
+          <div class="col-md-12">
+            <h3>End Workout</h3>
+          </div>
+        </div>
+      <form name="eform" ng-submit="submitForm()" ng-model="endworkout.eform" novalidate>
+          <!-- Title -->
+          <div class="form-group" ng-class="{ 'has-error' : eform.endWorkoutTitle.$invalid && !eform.endWorkoutTitle.$pristine }">
+              <label>Title </label>
+              <input type="text" name="endWorkoutTitle" class="form-control" [(ngModel)]="endWorkoutTitle" ng-minlength="3" required>
+              <p ng-show="eform.endWorkoutTitle.$invalid && !eform.endWorkoutTitle.$pristine" class="help-block">workout title is required.</p>
+              <p ng-show="eform.endWorkoutTitle.$error.minlength" class="help-block">Should contain 3 character</p>
+          </div>
+          
+          <!-- Note -->
+          <div class="form-group" ng-class="{ 'has-error' : eform.endWorkoutNote.$invalid && !eform.endWorkoutNote.$pristine }">
+              <label>Note</label>
+              <textarea class="form-control" rows="5" name="endWorkoutNote" [(ngModel)]="endWorkoutNote"></textarea>
+          </div>
+
+          <!-- End Date -->
+          <div class="form-group" ng-class="{ 'has-error' : eform.endDate.$invalid && !eform.endDate.$pristine }">
+              <label>End Date</label>
+              <input type="date" class="form-control" rows="5" name = "endDate" [(ngModel)]="endDate">
+          </div>
+
+           <!-- End Date -->
+           <div class="form-group" ng-class="{ 'has-error' : eform.endTime.$invalid && !eform.endTime.$pristine }" ng-model="dvEndWorkOut">
+              <label>End Time</label>
+              <input type="time"  class="form-control" rows="5" name="endTime" [(ngModel)]="endTime">
+          </div>
+
+          <button  class="btn btn-primary" ng-disabled="eform.$invalid" ng-click="onSubmit()">End</button> <button  class="btn btn-primary"  ng-click="cancelEditWorkout()">Cancel</button><br><br>
+      </form>
+  </div>

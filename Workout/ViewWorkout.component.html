@@ -1,0 +1,37 @@
+<div class="container" id="dvStart" >
+            <div class="col-md-12" style="height:5px"></div>
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-11">
+                <input class="textbox" type="text" id="txtSearch" ng-model="startSearchBox" placeholder="Search">
+              </div>
+            </div>
+            <div class="col-md-12" style="height:5px"></div>
+            <div class="row" style="float:center">
+                <div class="col-md-1"></div>
+                <div class="col-md-10 pinkBorder">
+                  <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-11" style="float:left">
+                  <label class="textbox" id="lblWorkoutList">Walking for 5 mins</label>
+                    </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2">
+                        <button class="btn btn-default" id="btnEdit" (click)="editWorkoutFunc()">Edit</button>
+					  </div>
+                      <div class="col-md-3">
+                          <button class="btn btn-default" id="btnDelete" >Delete</button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-default" id="btnStart" (click)="startWorkoutFunc()">Start</button>
+                          </div>
+                          <div class="col-md-3">
+                              <button class="btn btn-default" id="btnEnd" (click)="endWorkoutFunc()" >End</button>
+                            </div>
+                    </div>
+              </div>
+              <div class="col-md-1"></div>
+            </div>
+      </div>
